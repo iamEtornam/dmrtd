@@ -1,7 +1,6 @@
 # Created by Crt Vavros, copyright © 2022 ZeroPass. All rights reserved.
 name: dmrtd
 description: Dart implementation of ICAO Doc 9303 MRTD, created by ZeroPass
-
 version: 2.0.0
 
 environment:
@@ -23,6 +22,7 @@ dependencies:
   pointycastle: ^3.9.1
   diffie_hellman: ^0.1.2
   crypto_keys_plus: ^0.4.0 # till cypto_keys lib is not updated
+
 
 dev_dependencies:
   flutter:      # needed for flutter_nfc_kit

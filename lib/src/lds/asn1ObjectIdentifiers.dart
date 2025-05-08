@@ -1,5 +1,6 @@
 // Created by Nejc Skerjanc, copyright © 2023 ZeroPass. All rights reserved.
 
+import 'package:dmrtd/extensions.dart';
 
 import "package:dmrtd/src/extension/logging_apis.dart";
 import 'package:logging/logging.dart';
@@ -8,6 +9,7 @@ import 'package:collection/collection.dart';
 
 
 import '../types/exception.dart';
+
 
 // here you can add additional object identifiers that are not defined in pointycastle library
 
@@ -68,6 +70,7 @@ class ASN1ObjectIdentifierObjectException extends DMRTDException {
 
   ASN1ObjectIdentifierObjectException(message) : super(message);
 }
+
 
 // Object Identifier Element
 class OIE {
@@ -384,10 +387,13 @@ class ASN1ObjectIdentifierType {
 
 
   // check if object identifier is valid
-  bool checkOID({required Map<String, Object> item}){
+  bool checkOID({required Map<String, Object> item}) {
     //check if list contains all required keys
-    if (!item.containsKey('identifier') || !item.containsKey('identifierString') || !item.containsKey('readableName')) {
-      _log.error('Object identifier must contain identifier, identifierString and readableName.');
+    if (!item.containsKey('identifier') ||
+        !item.containsKey('identifierString') ||
+        !item.containsKey('readableName')) {
+      _log.error(
+          'Object identifier must contain identifier, identifierString and readableName.');
       return false;
     }
 
@@ -406,19 +412,18 @@ class ASN1ObjectIdentifierType {
     return true;
   }
 
-
   // has object identifier with identifier string
   bool hasOIDWithIdentifierString({required String identifierString}) {
     _log.finer("hasOIDWithIdentifierString: $identifierString");
     return _OIDS.any((element) => element['identifierString'] == identifierString);
   }
 
-
   // get object identifier by identifier string
   Map<String, Object> getOIDByIdentifierString({required String identifierString}) {
     _log.finer("getOIDByIdentifierString: $identifierString");
     return _OIDS.firstWhere((element) => element['identifierString'] == identifierString, orElse: () =>
       throw ASN1ObjectIdentifierObjectException('Object identifier with identifier string $identifierString does not exist.'));
+
   }
 
   // has object identifier wih identifier
@@ -432,7 +437,6 @@ class ASN1ObjectIdentifierType {
     _log.finer("getOIDByIdentifier: $identifier");
     return _OIDS.firstWhere((element) => element['identifier'] == identifier, orElse: () =>
       throw ASN1ObjectIdentifierObjectException('Object identifier with identifier $identifier does not exist.'));
+
   }
-
 }
-
