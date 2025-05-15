@@ -2,7 +2,6 @@
 // ignore_for_file: constant_identifier_names
 
 import 'dart:typed_data';
-import 'dg.dart';
 import 'package:dmrtd/dmrtd.dart';
 
 class EfDG15 extends DataGroup {

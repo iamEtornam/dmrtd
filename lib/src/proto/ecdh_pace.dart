@@ -6,12 +6,8 @@ import "package:dmrtd/extensions.dart";
 import "package:dmrtd/src/crypto/crypto_utils.dart";
 import "package:dmrtd/src/proto/public_key_pace.dart";
 import "package:dmrtd/src/utils.dart";
-import "package:dmrtd/src/extension/logging_apis.dart";
 import 'package:pointycastle/export.dart';
 import "package:logging/logging.dart";
-import "package:pointycastle/api.dart";
-import "package:pointycastle/ecc/api.dart";
-import "package:pointycastle/ecc/curves/secp256r1.dart";
 
 import "domain_parameter.dart";
 
@@ -144,7 +140,7 @@ class ECDHPace {
 
   ECPoint get G => domainParameters.G;
 
-  void generateKeyPair({Uint8List? seed32byte = null}){
+  void generateKeyPair({Uint8List? seed32byte}){
     _log.fine("Generating key pair for domain parameter ${selectedDomainParameter.name}.");
     if (seed32byte == null){
       _log.debug("Seed is null. Generating random seed (32 bytes).");
@@ -170,7 +166,7 @@ class ECDHPace {
   }
 
   void generateKeyPairWithCustomGenerator({required ECPoint mappedGenerator,
-    Uint8List? seed32byte = null}) {
+    Uint8List? seed32byte}) {
     _log.fine(
         "Generating custom key pair for domain parameter "
             "${selectedDomainParameter.name}.");
@@ -190,7 +186,7 @@ class ECDHPace {
 
     ECDomainParametersImpl domainParametersCustom =
           ECDomainParametersImpl(domainParameters.domainName,
-                                  this.domainParameters.curve,
+                                  domainParameters.curve,
                                   mappedGenerator,
                                   domainParameters.n);
 
@@ -315,18 +311,18 @@ class ECDHPace {
 
     BigInt nonceBigInt = Utils.uint8ListToBigInt(nonce);
 
-    ECPoint? p = pointG! * nonceBigInt;
+    ECPoint? p = pointG * nonceBigInt;
     if (p == null) {
       _log.error("ECDHPaceCurve.getMappedGeneratorPoint; p is null. Something went wrong in PC library.");
       throw ECDHPaceError("ECDHPaceCurve.getMappedGeneratorPoint; p is null. Something went wrong in PC library.");
     }
 
-    ECPoint? mappedGenerator = p! + sharedSecret;
+    ECPoint? mappedGenerator = p + sharedSecret;
     if (mappedGenerator == null) {
       _log.error("ECDHPaceCurve.getMappedGeneratorPoint; mappedGenerator is null. Something went wrong in PC library.");
       throw ECDHPaceError("ECDHPaceCurve.getMappedGeneratorPoint; mappedGenerator is null. Something went wrong in PC library.");
     }
-    return mappedGenerator!;
+    return mappedGenerator;
   }
 }
 
