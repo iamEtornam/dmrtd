@@ -1,13 +1,10 @@
 // Created by Crt Vavros, copyright © 2022 ZeroPass. All rights reserved.
 // ignore_for_file: prefer_adjacent_string_concatenation, prefer_interpolation_to_compose_strings
 
-import 'package:dmrtd/internal.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
-import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:dmrtd/dmrtd.dart';
 import 'package:dmrtd/extensions.dart';
@@ -17,7 +14,6 @@ import 'package:logging/logging.dart';
 import 'package:dmrtd/src/proto/can_key.dart';
 import 'package:intl/intl.dart';
 
-import 'package:dmrtd/src/proto/ecdh_pace.dart';
 
 class MrtdData {
   EfCardAccess? cardAccess;
@@ -342,9 +338,10 @@ class _MrtdHomePageState extends State<MrtdHomePage>
       });
       try {
         bool demo = false;
-        if (!demo)
+        if (!demo) {
           await _nfc.connect(
               iosAlertMessage: "Hold your phone near Biometric Passport");
+        }
 
         final passport = Passport(_nfc);
 
@@ -715,12 +712,13 @@ class _MrtdHomePageState extends State<MrtdHomePage>
     List<Widget> list = [];
     if (_mrtdData == null) return list;
 
-    if (_mrtdData!.isPACE != null && _mrtdData!.isDBA != null)
+    if (_mrtdData!.isPACE != null && _mrtdData!.isDBA != null) {
       list.add(_makeMrtdAccessDataWidget(
           header: "Access protocol",
           collapsedText: '',
           isDBA: _mrtdData!.isDBA!,
           isPACE: _mrtdData!.isPACE!));
+    }
 
     if (_mrtdData!.cardAccess != null) {
       list.add(_makeMrtdDataWidget(

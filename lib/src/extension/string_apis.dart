@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'dart:core';
 import 'dart:typed_data';
+
 import 'package:convert/convert.dart';
 
 extension StringDecodeApis on String {
@@ -10,7 +11,7 @@ extension StringDecodeApis on String {
   }
 
   Uint8List parseHex() {
-    return hex.decoder.convert(this) as Uint8List;
+    return hex.decoder.convert(this);
   }
 }
 
@@ -42,7 +43,7 @@ extension StringYYMMDDateApi on String {
 
   DateTime parseDate({bool futureDate = false}) {
     if (length == 6) {
-      return this.parseDateYYMMDD(futureDate: futureDate);
+      return parseDateYYMMDD(futureDate: futureDate);
     } else {
       return DateTime.parse(this);
     }

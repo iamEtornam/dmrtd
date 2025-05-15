@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:dmrtd/extensions.dart';
 import 'package:logging/logging.dart';
 import 'package:pointycastle/export.dart';
+import 'package:pointycastle/src/impl/base_block_cipher.dart';
 
 import '../lds/asn1ObjectIdentifiers.dart';
 
@@ -31,7 +32,7 @@ class AESCipher {
   static final _log = Logger("AESCipher");
   static final _factory = () => AESEngine();
 
-  late KEY_LENGTH _size;
+  late final KEY_LENGTH _size;
 
   AESCipher({required KEY_LENGTH size}) :
         _size = size;
@@ -75,7 +76,7 @@ class AESCipher {
       iv = Uint8List(AES_BLOCK_SIZE);
       _log.sdVerbose("AESCipher.encrypt; iv is null");
     }
-    final paddedData;
+    final Uint8List paddedData;
     if (padding) {
       _log.finest("Padding data with zeros to block size: $AES_BLOCK_SIZE");
       paddedData = pad(
@@ -85,12 +86,13 @@ class AESCipher {
       _log.finest("Data will not be padded.");
       paddedData = data;
     }
-    var cipher;
-    if (mode == BLOCK_CIPHER_MODE.CBC)
+    BaseBlockCipher cipher;
+    if (mode == BLOCK_CIPHER_MODE.CBC) {
       cipher = CBCBlockCipher(_factory())
         ..init(true, ParametersWithIV(KeyParameter(key), iv!));
-    else
+    } else {
       cipher = ECBBlockCipher(_factory())..init(true, KeyParameter(key)); //ECB mode
+    }
 
     //return cipher.process(paddedData);
     return _processBlocks(cipher:cipher, data:paddedData);
@@ -117,12 +119,13 @@ class AESCipher {
       _log.sdVerbose("AESCipher.decrypt; iv is null");
     }
 
-    var cipher;
-    if (mode == BLOCK_CIPHER_MODE.CBC)
+    BaseBlockCipher cipher;
+    if (mode == BLOCK_CIPHER_MODE.CBC) {
       cipher = CBCBlockCipher(_factory())
         ..init(false, ParametersWithIV(KeyParameter(key), iv));
-    else
+    } else {
       cipher = ECBBlockCipher(_factory())..init(false, KeyParameter(key));
+    }
       return Uint8List.fromList(_processBlocks(cipher:cipher, data:data).toList());
   }
 

@@ -2,12 +2,10 @@
 // ignore_for_file: constant_identifier_names
 
 import 'dart:core';
-import 'dart:convert';
 import 'dart:typed_data';
+
 import 'package:dmrtd/dmrtd.dart';
 import 'package:dmrtd/extensions.dart';
-
-import 'dg.dart';
 
 enum ImageType { jpeg, jpeg2000 }
 
@@ -28,7 +26,7 @@ class EfDG2 extends DataGroup {
   static const SMT_TAG = 0x7D;
   static const VERSION_NUMBER = 0x30313000;
 
-  EfDG2.fromBytes(Uint8List data) : super.fromBytes(data);
+  EfDG2.fromBytes(super.data) : super.fromBytes();
 
   @override
   int get fid => FID;
@@ -103,7 +101,7 @@ class EfDG2 extends DataGroup {
 
     if (tvl.tag.value != BIOMETRIC_INFORMATION_TEMPLATE_TAG) {
       throw EfParseError(
-          "Invalid object tag=${tvl.tag.value.hex()}, expected tag=${BIOMETRIC_INFORMATION_TEMPLATE_TAG}");
+          "Invalid object tag=${tvl.tag.value.hex()}, expected tag=$BIOMETRIC_INFORMATION_TEMPLATE_TAG");
     }
 
     var bht = TLV.decode(tvl.value);
@@ -125,7 +123,7 @@ class EfDG2 extends DataGroup {
 
     if (bht.tag.value != BIOMETRIC_HEADER_TEMPLATE_BASE_TAG) {
       throw EfParseError(
-          "Invalid object tag=${bht.tag.value.hex()}, expected tag=${BIOMETRIC_INFORMATION_TEMPLATE_TAG}");
+          "Invalid object tag=${bht.tag.value.hex()}, expected tag=$BIOMETRIC_INFORMATION_TEMPLATE_TAG");
     }
 
     int bhtLength = stream.length;

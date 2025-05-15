@@ -28,8 +28,9 @@ class AES_SMCipher implements SMCipher {
   Uint8List encrypt(Uint8List data, {SSC? ssc}) {
     _log.debug ("encrypt: data size: ${data.length}, ssc: ${ssc?.toBytes().hex()}");
     _log.sdVerbose("encrypt: data: ${data.hex()}, KSenc: ${KSenc.hex()}");
-    if (ssc == null)
+    if (ssc == null) {
       throw Exception("PACE_SMCipher_AES.encrypt: SSC should not be null");
+    }
 
     //IV = E(KSenc, SCC)
     _log.sdDebug("Encrypting IV with KSenc: ${KSenc.hex()}, ssc: ${ssc.toBytes().hex()}");
@@ -47,9 +48,10 @@ class AES_SMCipher implements SMCipher {
   @override
   Uint8List decrypt(Uint8List data, {SSC? ssc}) {
     _log.debug ("decrypt: data size: ${data.length}, ssc: ${ssc?.toBytes().hex()}");
-    _log.sdVerbose("decrypt: data: ${data}, KSenc: ${KSenc.hex()}");
-    if (ssc == null)
+    _log.sdVerbose("decrypt: data: $data, KSenc: ${KSenc.hex()}");
+    if (ssc == null) {
       throw Exception("PACE_SMCipher_AES.decrypt: SSC should not be null");
+    }
 
     //IV = E(KSenc, SCC)
     Uint8List iv = cipher.encrypt(data: ssc.toBytes(), key: KSenc, mode: BLOCK_CIPHER_MODE.ECB);

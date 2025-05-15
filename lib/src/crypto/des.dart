@@ -1,6 +1,8 @@
 //  Created by Crt Vavros, copyright © 2022 ZeroPass. All rights reserved.
 import 'dart:typed_data';
+
 import 'package:tripledes_nullsafety/tripledes_nullsafety.dart';
+
 import 'iso9797.dart';
 
 /// Implements DES encryption algorithm using CBC block cipher mode
@@ -186,8 +188,7 @@ class DESedeCipher extends DESCipher {
   ///
   /// [key] length must be 8, 16 or 24 bytes.
   /// [iv] length must be 8 bytes.
-  DESedeCipher({required final Uint8List key, required final Uint8List iv})
-      : super(key: key, iv: iv);
+  DESedeCipher({required super.key, required super.iv});
 
   /// Sets new key. [key] length must be 8, 16 or 24 bytes.
   @override

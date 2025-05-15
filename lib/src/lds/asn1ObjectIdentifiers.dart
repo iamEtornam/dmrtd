@@ -10,7 +10,6 @@ import 'package:collection/collection.dart';
 
 import '../types/exception.dart';
 
-
 // here you can add additional object identifiers that are not defined in pointycastle library
 
 /*
@@ -130,11 +129,13 @@ class OIE {
       identifier = item['identifier'] as List<int>;
     }
 
-    String toString() {
+    @override
+  String toString() {
       return 'OIE: $identifierString, $readableName, $identifier';
     }
 
-    bool operator ==(Object other) {
+    @override
+  bool operator ==(Object other) {
       if (other is OIE) {
         //return identifierString == other.identifierString &&
         //    readableName == other.readableName &&
@@ -188,15 +189,14 @@ class OIEPaceProtocol extends OIE {
 
   OIEPaceProtocol({required String identifierString,
                    required String readableName,
-                   required List<int> identifier}) :
+                   required super.identifier}) :
         super(identifierString: identifierString.toUpperCase(),
-          readableName: readableName.toUpperCase(),
-          identifier: identifier){
+          readableName: readableName.toUpperCase()){
       setParams();
   }
 
-  OIEPaceProtocol.fromMap({required Map<String, Object> item}):
-                            super.fromMap(item: item){
+  OIEPaceProtocol.fromMap({required super.item}):
+                            super.fromMap(){
     setParams();
   }
 
