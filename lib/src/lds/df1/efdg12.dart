@@ -43,7 +43,7 @@ class EfDG12 extends DataGroup {
   String? get issuingAuthority => _issuingAuthority;
 
 
-  EfDG12.fromBytes(Uint8List data) : super.fromBytes(data);
+  EfDG12.fromBytes(super.data) : super.fromBytes();
 
   @override
   int get fid => FID;

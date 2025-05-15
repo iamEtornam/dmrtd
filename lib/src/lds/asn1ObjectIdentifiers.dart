@@ -10,7 +10,6 @@ import 'package:collection/collection.dart';
 
 import '../types/exception.dart';
 
-
 // here you can add additional object identifiers that are not defined in pointycastle library
 
 /*

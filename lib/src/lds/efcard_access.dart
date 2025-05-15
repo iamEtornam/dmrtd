@@ -23,7 +23,7 @@ class EfCardAccess extends ElementaryFile {
 
   final _log = Logger("EfCardAccess");
 
-  EfCardAccess.fromBytes(Uint8List data) : super.fromBytes(data);
+  EfCardAccess.fromBytes(super.data) : super.fromBytes();
 
   @override
   int get fid => FID;

@@ -13,7 +13,7 @@ class EfDG15 extends DataGroup {
   late final AAPublicKey _pubkey;
   AAPublicKey get aaPublicKey => _pubkey;
 
-  EfDG15.fromBytes(Uint8List data) : super.fromBytes(data);
+  EfDG15.fromBytes(super.data) : super.fromBytes();
 
   @override
   int get fid => FID;
